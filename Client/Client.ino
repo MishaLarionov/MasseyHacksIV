@@ -3,7 +3,7 @@
 
 const char* ssid     = "MasseyHacks2018";
 char path[] = "/";
-char host[] = "10.88.198.193:2018";
+char host[] = "10.88.218.3";
   
 WebSocketClient webSocketClient;
 
@@ -50,7 +50,7 @@ void setup() {
   
 
   // Connect to the websocket server
-  if (client.connect("10.88.198.193", 2018)) {
+  if (client.connect(host, 2018)) {
     Serial.println("Connected");
   } else {
     Serial.println("Connection failed.");
@@ -101,7 +101,7 @@ void loop() {
     cm = duration / 58.0;
 
     // Print out results
-    if ( pulse_width > MAX_DIST ) {
+    if ( cm > MAX_DIST ) {
       Serial.println("Out of range");
     } else {
       Serial.print(cm);
