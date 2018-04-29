@@ -3,7 +3,7 @@
 
 const char* ssid     = "MasseyHacks2018";
 char path[] = "/";
-char host[] = "10.88.218.3";
+char host[] = "10.88.198.193";
   
 WebSocketClient webSocketClient;
 
@@ -50,7 +50,7 @@ void setup() {
   
 
   // Connect to the websocket server
-  if (client.connect(host, 2018)) {
+  if (client.connect(host, 2028)) {
     Serial.println("Connected");
   } else {
     Serial.println("Connection failed.");
@@ -102,9 +102,9 @@ void loop() {
 
     // Print out results
     if ( cm >= 30 && cm <= 60 ) { //block 1
-      data = "5";
-    } else if(cm >= 60 && cm <= 90){ //block 2
       data = "4";
+    } else if(cm >= 60 && cm <= 90){ //block 2
+      data = "5";
     }
     else{
       data = "3";
