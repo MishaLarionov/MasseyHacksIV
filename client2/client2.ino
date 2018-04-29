@@ -102,12 +102,12 @@ void loop() {
 
     // Print out results
     if ( cm >= 30 && cm <= 60 ) { //block 1
-      data = "1";
+      data = "5";
     } else if(cm >= 60 && cm <= 90){ //block 2
-      data = "2";
+      data = "4";
     }
     else{
-      data = "0";
+      data = "3";
     }
     Serial.print(cm);
     Serial.println(" cm \t");
