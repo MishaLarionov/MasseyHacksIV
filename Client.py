@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+import time
 
 async def hello():
     async with websockets.connect('ws://localhost:2018') as websocket:
@@ -9,5 +10,8 @@ async def hello():
 
         greeting = await websocket.recv()
         print("< {}".format(greeting))
+        while True:
+            time.sleep(1)
+            await websocket.send('testing 123 from ' + name)
 
 asyncio.get_event_loop().run_until_complete(hello())

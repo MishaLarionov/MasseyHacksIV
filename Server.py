@@ -4,15 +4,19 @@
 import asyncio
 import websockets
 
-async def hello(websocket, path):
-    name = await websocket.recv()
-    print("< {}".format(name))
+connected = set()
 
-    greeting = "Hello {}!".format(name)
-    await websocket.send(greeting)
-    print("> {}".format(greeting))
+async def handler(websocket, path):
+    global connected
 
-start_server = websockets.serve(hello, 'localhost', 2018)
+    connected.add(websocket)
+    try:
+        await asyncio.wait([ws.send("register") for ws in connected])
+    finally:
+        while True:
+            print(await websocket.recv())
+
+start_server = websockets.serve(handler, 'localhost', 2018)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
