@@ -10,7 +10,20 @@ WebSocketClient webSocketClient;
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
 
+// Pins
+const int TRIG_PIN = 4; // I assume this is the port labelled D4
+const int ECHO_PIN = 2; // I assume this is the port labelled D2
+
+// Anything over 400 cm (23200 us pulse) is "out of range"
+const unsigned int MAX_DIST = 23200;
+
 void setup() {
+  // Set up the trigger pin as output
+  pinMode(TRIG_PIN, OUTPUT);
+  digitalWrite(TRIG_PIN, LOW);
+  // Set up the echo pin as input
+  pinMode(ECHO_PIN, INPUT);
+  // Start serial debug interface
   Serial.begin(115200);
   delay(10);
 
@@ -21,7 +34,7 @@ void setup() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
   
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid);
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -63,6 +76,8 @@ void setup() {
 
 void loop() {
   String data;
+  unsigned long duration;
+  float cm;
 
   if (client.connected()) {
     
@@ -71,11 +86,29 @@ void loop() {
       Serial.print("Received data: ");
       Serial.println(data);
     }
-    
-    // capture the value of analog 1, send it along
-    pinMode(1, INPUT);
+
+    // Hold the trigger pin high for at least 10 us
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+
+    // Measure how long the echo pin was held high (pulse width)
+    duration = pulseIn(ECHO_PIN, HIGH);
+
+    // Calculate distance in centimetres. The constants
+    // are found in the datasheet, and calculated from the assumed speed 
+    //of sound in air at sea level (~340 m/s).
+    cm = duration / 58.0;
+
+    // Print out results
+    if ( pulse_width > MAX_DIST ) {
+      Serial.println("Out of range");
+    } else {
+      Serial.print(cm);
+      Serial.print(" cm \t");
+    }
     // Here's where we actually wrap and send the data
-    data = String(1337);
+    data = String(cm);
     
     webSocketClient.sendData(data);
     
@@ -86,7 +119,7 @@ void loop() {
     }
   }
   
-  // wait to fully let the client disconnect
-  delay(3000);
+  // Wait at least 60ms before next measurement
+  delay(60);
   
 }
