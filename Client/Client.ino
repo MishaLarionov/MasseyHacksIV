@@ -3,7 +3,7 @@
 
 const char* ssid     = "MasseyHacks2018";
 char path[] = "/";
-char host[] = "10.88.218.3";
+char host[] = "10.88.198.193";
   
 WebSocketClient webSocketClient;
 
@@ -50,7 +50,7 @@ void setup() {
   
 
   // Connect to the websocket server
-  if (client.connect(host, 2018)) {
+  if (client.connect(host, 2028)) {
     Serial.println("Connected");
   } else {
     Serial.println("Connection failed.");
