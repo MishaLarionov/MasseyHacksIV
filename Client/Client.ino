@@ -11,11 +11,11 @@ WebSocketClient webSocketClient;
 WiFiClient client;
 
 // Pins
-const int TRIG_PIN = 4; // I assume this is the port labelled D4
+const int TRIG_PIN = 0; // I assume this is the port labelled D4
 const int ECHO_PIN = 2; // I assume this is the port labelled D2
 
 // Anything over 400 cm (23200 us pulse) is "out of range"
-const unsigned int MAX_DIST = 23200;
+const unsigned int MAX_DIST = 200;
 
 void setup() {
   // Set up the trigger pin as output
@@ -106,11 +106,11 @@ void loop() {
     } else {
       Serial.print(cm);
       Serial.print(" cm \t");
+      data = String(cm);
+      webSocketClient.sendData(data);
     }
     // Here's where we actually wrap and send the data
-    data = String(cm);
     
-    webSocketClient.sendData(data);
     
   } else {
     Serial.println("Client disconnected.");
