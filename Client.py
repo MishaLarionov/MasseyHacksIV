@@ -3,7 +3,7 @@ import websockets
 import time
 
 async def hello():
-    async with websockets.connect('ws://localhost:2018') as websocket:
+    async with websockets.connect('ws://10.88.196.214:2018') as websocket:
         name = input("What's your name? ")
         await websocket.send(name)
         print("> {}".format(name))
