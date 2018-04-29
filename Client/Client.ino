@@ -101,7 +101,7 @@ void loop() {
     cm = duration / 58.0;
 
     // Print out results
-    if ( cm >= 30 && cm <= 60 ) { //block 1
+    if ( cm >= 10 && cm <= 40 ) { //block 1
       data = "1";
     } else if(cm >= 60 && cm <= 90){ //block 2
       data = "2";
