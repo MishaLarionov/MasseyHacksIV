@@ -3,6 +3,7 @@
     <words>
       <w>addr</w>
       <w>socketio</w>
+      <w>websocket</w>
     </words>
   </dictionary>
 </component>

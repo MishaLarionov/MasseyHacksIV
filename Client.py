@@ -1,11 +1,13 @@
-# Echo client program
-import socket
+import asyncio
+import websockets
 
-HOST = 'localhost'    # The remote host
-PORT = 6969               # The same port as used by the server
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((HOST, PORT))
-    s.sendall(b'Hello, world')
-    data = s.recv(1024)
+async def hello():
+    async with websockets.connect('ws://localhost:2018') as websocket:
+        name = input("What's your name? ")
+        await websocket.send(name)
+        print("> {}".format(name))
 
-print('Received', repr(data))
+        greeting = await websocket.recv()
+        print("< {}".format(greeting))
+
+asyncio.get_event_loop().run_until_complete(hello())
